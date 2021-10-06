@@ -11,10 +11,10 @@ while (cap.isOpened()):
     if ret== True:
         cv2.imshow("Video",frame)
         out.write(frame)
-        
+
         if cv2.waitKey(1) & 0xFF==27:
             break
-        if cv2.waitKey(1) & 0xFF==ord('g'):
+        if cv2.waitKey(1) & 0xFF==ord('g') or flag==5:
             while (True):
                 ret_g, frame_g = cap.read()
                 if ret_g==True:
@@ -22,15 +22,71 @@ while (cap.isOpened()):
                     cv2.imshow("Video",frame_g)
                     out.write(frame_g)
 
-                    if cv2.waitKey(1) & 0xFF==27:
+                    if cv2.waitKey(1) & 0xFF==27:## exit
                         flag=1
                         break
-                    elif cv2.waitKey(1) & 0xFF==ord('r'):
+                    elif cv2.waitKey(1) & 0xFF==ord('r'): ## reset
+                        flag=2
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('u'): ## uv
+                        flag=3
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('x'):## xyz
+                        flag=4
                         break
                 else:
                     break
         if flag==1:
             break
+        elif cv2.waitKey(1) & 0xFF or flag==2:
+            continue
+        elif cv2.waitKey(1) & 0xFF==ord('u') or flag==3:
+            ## UV color
+            while (True):
+                ret_u, frame_u = cap.read()
+                if ret_u==True:
+                    frame_u = cv2.cvtColor(frame_u,cv2.COLOR_BGR2YUV)
+                    cv2.imshow("Video",frame_u)
+                    out.write(frame_u)
+
+                    if cv2.waitKey(1) & 0xFF==27:## exit
+                        flag=1
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('r'): ## reset
+                        flag=2
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('g'): ## gray
+                        flag=5
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('x'):## xyz
+                        flag=4
+                        break
+                else:
+                    break
+        elif cv2.waitKey(1) & 0xFF==ord('x') or flag==4:
+            ##XYZ
+            while (True):
+                ret_u, frame_u = cap.read()
+                if ret_u==True:
+                    frame_u = cv2.cvtColor(frame_u,cv2.COLOR_BGR2YUV)
+                    cv2.imshow("Video",frame_u)
+                    out.write(frame_u)
+
+                    if cv2.waitKey(1) & 0xFF==27:## exit
+                        flag=1
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('r'): ## reset
+                        flag=2
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('g'): ## gray
+                        flag=5
+                        break
+                    elif cv2.waitKey(1) & 0xFF==ord('u'):## xyz
+                        flag=3
+                        break
+                else:
+                    break
+            
     else:
         break
 
